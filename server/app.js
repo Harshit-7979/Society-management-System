@@ -3,20 +3,22 @@ import connectDb from './db/config.js';
 import dotenv from "dotenv";
 
 dotenv.config();
-connectDb()
+
+//note function to connect with mongodb
+connectDb();
 
 
 const app = express();
 
 
 app.get('/health',(req,res)=>{
-    res.send('Health is ok')
-})
+    res.send('Health is ok');
+});
 
 
 
 app.listen(3000 ,()=>{
 
-    console.log("server is running")
+    console.log("server is running");
 
-})
+});
