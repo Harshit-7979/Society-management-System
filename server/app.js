@@ -1,24 +1,36 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import connectDb from './db/config.js';
-import dotenv from "dotenv";
+import authRoutes from './routes/auth.routes.js';
+import roleRoutes from './routes/role.routes.js';
+import flatRoutes from './routes/flat.routes.js';
+import cookieParser from 'cookie-parser' ;
+import cors from 'cors'
+const app = express();
+app.use(express.json());
+
+app.use(cors({
+  origin : "http://localhost:5173",
+ credentials : true 
+}));
+
 
 dotenv.config();
+app.use(cookieParser())
 
-//note function to connect with mongodb
+//NOTE  function to connect with mongodb
 connectDb();
 
-
-const app = express();
-
-
-app.get('/health',(req,res)=>{
-    res.send('Health is ok');
+app.get('/health', (req, res) => {
+  res.send('Health is ok.');
 });
 
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/roles', roleRoutes);
+app.use('/api/v1/flats', flatRoutes);
 
-
-app.listen(3000 ,()=>{
-
-    console.log("server is running");
-
+app.listen(3000, () => {
+  console.log('server is running');
 });
+
+//deployment client + back
